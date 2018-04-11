@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tetris</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  </head>
+  <body>
+    <div class="game-boy">
+      <div class="tetris-container">
+        <div id="topbar" class="topbar hidden">
+          <span id="topbar-level"></span>
+          <span id="topbar-score"></span>
+        </div>
+
+        <table id="matrix" class="tetris-container__tetris-matrix"></table>
+
+        <div id="page-home" class="tetris-container__page">
+          <h1>Tetris</h1>
+          <button id="btn-start" class="tetris-container__page__btn">start</button>
+        </div>
+
+        <div id="page-game-over" class="tetris-container__page hidden">
+          <h1>Game Over</h1>
+          <p id="pad-score" class="tetris-container__page__pad-score"></p>
+          <button id="btn-play-again" class="tetris-container__page__btn">Play Again</button>
+        </div>
+
+      </div>
+      <div class="game-controller">
+        <div class="group-btn-arrows">
+          <div class="group-btn-arrows__row">
+            <button id="btn-arrow-up" class="group-btn-arrows__row__btn group-btn-arrows__row__btn-up"></button>
+          </div>
+          <div class="group-btn-arrows__row">
+             <button id="btn-arrow-left" class="group-btn-arrows__row__btn group-btn-arrows__row__btn-left"></button>
+             <button class="group-btn-arrows__row__btn group-btn-arrows__row__btn-empty"></button>
+             <button id="btn-arrow-right" class="group-btn-arrows__row__btn group-btn-arrows__row__btn-right"></button>
+          </div>
+          <div class="group-btn-arrows__row">
+            <button id="btn-arrow-down" class="group-btn-arrows__row__btn group-btn-arrows__row__btn-down"></button>
+          </div>
+        </div>
+        <div class="group-btn-functions">
+          <button id="btn-a" class="group-btn-functions__btn"></button>
+          <button id="btn-b" class="group-btn-functions__btn"></button>
+        </div>
+      </div>
+    </div>
+    <script src="./dist/bundle.js"></script>
+  </body>
+</html>

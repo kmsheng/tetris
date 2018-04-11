@@ -1,0 +1,5 @@
+src/*.js
+*.*.swp
+*.*.swo
+node_modules/
+dist/
