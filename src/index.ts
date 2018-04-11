@@ -36,19 +36,21 @@ game.on('gameover', () => {
   padScore.innerHTML = `Your Score: ${game.score}`;
 });
 
-const startGame = () => {
+const startGame = (event) => {
+  event.preventDefault();
   game.start()
   topbar.classList.remove('hidden');
   pageHome.classList.add('hidden');
   pageGameOver.classList.add('hidden');
 };
 
-const handleFunctionBtnClicked = () => {
+const handleFunctionBtnClicked = (event) => {
+  event.preventDefault();
   if (game.isStarted) {
     game.rotateCurrentPiece();
   }
   else {
-    startGame();
+    startGame(event);
   }
 };
 
