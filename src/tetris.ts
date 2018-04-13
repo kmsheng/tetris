@@ -266,6 +266,15 @@ export default class Tetris {
     }
   }
 
+  dropCurrentPieceAllTheWayToBottom() {
+    const {currentPiece} = this;
+    const {fixedPosArr, deltaY} = this.getFixedPosArrData(currentPiece.getPosArr());
+    this.eraseBlocks(currentPiece.id);
+    this.setBlocks(fixedPosArr, currentPiece);
+    this.clearRowIfNeeded();
+    this.setNewPiece();
+  }
+
   rotateCurrentPiece() {
     const {currentPiece} = this;
     const nextRotateIndex = (currentPiece.rotateIndex + 1) % currentPiece.tetromino.coords.length;
