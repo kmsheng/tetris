@@ -153,7 +153,7 @@ export default class Tetris {
     }
   }
 
-  throwNewBlock() {
+  throwNewPiece() {
 
     const setMovingBlock = () => {
 
@@ -182,7 +182,7 @@ export default class Tetris {
 
           if (this.canThrowNewBlock()) {
             this.clearRowIfNeeded();
-            this.throwNewBlock();
+            this.throwNewPiece();
             return;
           }
           this.gameOver();
@@ -266,7 +266,7 @@ export default class Tetris {
     this.eventEmitter.emit('gamestart');
     this.initMatrix();
     this.setNewBlock();
-    this.throwNewBlock();
+    this.throwNewPiece();
   }
 
   private gameOver() {
