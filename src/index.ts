@@ -44,16 +44,6 @@ const startGame = (event) => {
   pageGameOver.classList.add('hidden');
 };
 
-const handleFunctionBtnClicked = (event) => {
-  event.preventDefault();
-  if (game.isStarted) {
-    game.rotateCurrentPiece();
-  }
-  else {
-    startGame(event);
-  }
-};
-
 btnStart.addEventListener('click', startGame, false);
 
 btnPlayAgain.addEventListener('click', startGame, false);
@@ -63,5 +53,22 @@ btnArrowDown.addEventListener('click', () => game.isStarted && game.moveCurrentP
 btnArrowLeft.addEventListener('click', () => game.isStarted && game.moveCurrentPieceToLeft(), false);
 btnArrowRight.addEventListener('click', () => game.isStarted && game.moveCurrentPieceToRight(), false);
 
-btnA.addEventListener('click', handleFunctionBtnClicked, false);
-btnB.addEventListener('click', handleFunctionBtnClicked, false);
+btnA.addEventListener('click', (event) => {
+  event.preventDefault();
+  if (game.isStarted) {
+    game.rotateCurrentPiece();
+  }
+  else {
+    startGame(event);
+  }
+}, false);
+
+btnB.addEventListener('click', (event) => {
+  event.preventDefault();
+  if (game.isStarted) {
+    game.dropCurrentPieceAllTheWayToBottom();
+  }
+  else {
+    startGame(event);
+  }
+}, false);
