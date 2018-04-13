@@ -69,7 +69,7 @@ export default class Tetris {
     }
   }
 
-  setNewBlock() {
+  setNewPiece() {
 
     const [randomBlock] = shuffle(this.tetrominoes);
     const [coord] = shuffle(randomBlock.coords);
@@ -119,7 +119,34 @@ export default class Tetris {
       .every(pos => this.matrix[pos.y][pos.x].isEmpty());
   }
 
+  // the pos arr where a piece will fall
+  getFixedPosArrData(posArr: Point2d[]) {
+
+    let canPlace = true;
+    let deltaY = 0;
+    let fixedPosArr = posArr.slice(0);
+
+    while (true) {
+      deltaY += 1;
+      const nextPosArr = posArr.map(pos => ({x: pos.x, y: pos.y + deltaY}));
+      if (this.canPlaceBlocks(nextPosArr)) {
+        fixedPosArr = nextPosArr;
+      }
+      else {
+        break;
+      }
+    }
+    return {deltaY, fixedPosArr};
+  }
+
   setBlocks(posArr: Point2d[], piece: TetrominoController) {
+
+    const {fixedPosArr} = this.getFixedPosArrData(posArr);
+
+    fixedPosArr.forEach(({x, y}) => {
+      this.matrix[y][x] = new MatrixBlock(piece.id, piece.tetromino.label, true);
+    });
+
     posArr.forEach(({x, y}) => {
       this.matrix[y][x] = new MatrixBlock(piece.id, piece.tetromino.label);
     });
@@ -153,7 +180,7 @@ export default class Tetris {
     }
   }
 
-  throwNewBlock() {
+  throwNewPiece() {
 
     const setMovingBlock = () => {
 
@@ -178,11 +205,11 @@ export default class Tetris {
         }
         else {
           clearInterval(this.timer);
-          this.setNewBlock();
+          this.setNewPiece();
 
           if (this.canThrowNewBlock()) {
             this.clearRowIfNeeded();
-            this.throwNewBlock();
+            this.throwNewPiece();
             return;
           }
           this.gameOver();
@@ -190,6 +217,7 @@ export default class Tetris {
       }
       else {
         clearInterval(this.timer);
+        this.gameOver();
       }
     }
 
@@ -239,6 +267,15 @@ export default class Tetris {
     }
   }
 
+  dropCurrentPieceAllTheWayToBottom() {
+    const {currentPiece} = this;
+    const {fixedPosArr, deltaY} = this.getFixedPosArrData(currentPiece.getPosArr());
+    this.eraseBlocks(currentPiece.id);
+    this.setBlocks(fixedPosArr, currentPiece);
+    this.clearRowIfNeeded();
+    this.setNewPiece();
+  }
+
   rotateCurrentPiece() {
     const {currentPiece} = this;
     const nextRotateIndex = (currentPiece.rotateIndex + 1) % currentPiece.tetromino.coords.length;
@@ -265,8 +302,8 @@ export default class Tetris {
     this.isStarted = true;
     this.eventEmitter.emit('gamestart');
     this.initMatrix();
-    this.setNewBlock();
-    this.throwNewBlock();
+    this.setNewPiece();
+    this.throwNewPiece();
   }
 
   private gameOver() {

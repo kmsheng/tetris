@@ -72,6 +72,10 @@ button {
   margin: 0 auto;
 }
 
+.tetris-container__tetris-matrix td.pseudo {
+  opacity: 0.3;
+}
+
 .tetris-container__tetris-matrix td {
   border: 1px solid #ddd;
   width: 18px;
