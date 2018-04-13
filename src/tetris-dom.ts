@@ -23,7 +23,13 @@ export default class TetrisDom extends Tetris {
     const {element} = this;
     const {width, height} = this.option;
     const html = this.matrix.map(row => {
-      const tds = row.map(block => `<td class="color-${block.label}"></td>`).join('');
+      const tds = row.map(block => {
+        const cssClasses = [`color-${block.label}`];
+        if (block.isPseudo) {
+          cssClasses.push('pseudo');
+        }
+        return `<td class="${cssClasses.join(' ')}"></td>`;
+      }).join('');
       return `<tr>${tds}</tr>`;
     }).join('');
 
