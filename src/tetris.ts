@@ -140,6 +140,13 @@ export default class Tetris {
   }
 
   setBlocks(posArr: Point2d[], piece: TetrominoController) {
+
+    const {fixedPosArr} = this.getFixedPosArrData(posArr);
+
+    fixedPosArr.forEach(({x, y}) => {
+      this.matrix[y][x] = new MatrixBlock(piece.id, piece.tetromino.label, true);
+    });
+
     posArr.forEach(({x, y}) => {
       this.matrix[y][x] = new MatrixBlock(piece.id, piece.tetromino.label);
     });
