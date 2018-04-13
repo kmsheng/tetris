@@ -217,6 +217,7 @@ export default class Tetris {
       }
       else {
         clearInterval(this.timer);
+        this.gameOver();
       }
     }
 
