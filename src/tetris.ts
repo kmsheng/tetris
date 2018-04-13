@@ -69,7 +69,7 @@ export default class Tetris {
     }
   }
 
-  setNewBlock() {
+  setNewPiece() {
 
     const [randomBlock] = shuffle(this.tetrominoes);
     const [coord] = shuffle(randomBlock.coords);
@@ -178,7 +178,7 @@ export default class Tetris {
         }
         else {
           clearInterval(this.timer);
-          this.setNewBlock();
+          this.setNewPiece();
 
           if (this.canThrowNewBlock()) {
             this.clearRowIfNeeded();
@@ -265,7 +265,7 @@ export default class Tetris {
     this.isStarted = true;
     this.eventEmitter.emit('gamestart');
     this.initMatrix();
-    this.setNewBlock();
+    this.setNewPiece();
     this.throwNewPiece();
   }
 
