@@ -61,8 +61,11 @@ export default class TetrisDom extends Tetris {
     else if ('ArrowDown' === code) {
       this.moveCurrentPieceToBottom();
     }
-    else if (['ArrowUp', 'Space'].includes(code)) {
+    else if ('ArrowUp' === code) {
       this.rotateCurrentPiece();
+    }
+    else if ('Space' === code) {
+      this.dropCurrentPieceAllTheWayToBottom();
     }
   }
 
