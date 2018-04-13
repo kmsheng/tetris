@@ -119,6 +119,26 @@ export default class Tetris {
       .every(pos => this.matrix[pos.y][pos.x].isEmpty());
   }
 
+  // the pos arr where a piece will fall
+  getFixedPosArrData(posArr: Point2d[]) {
+
+    let canPlace = true;
+    let deltaY = 0;
+    let fixedPosArr = posArr.slice(0);
+
+    while (true) {
+      deltaY += 1;
+      const nextPosArr = posArr.map(pos => ({x: pos.x, y: pos.y + deltaY}));
+      if (this.canPlaceBlocks(nextPosArr)) {
+        fixedPosArr = nextPosArr;
+      }
+      else {
+        break;
+      }
+    }
+    return {deltaY, fixedPosArr};
+  }
+
   setBlocks(posArr: Point2d[], piece: TetrominoController) {
     posArr.forEach(({x, y}) => {
       this.matrix[y][x] = new MatrixBlock(piece.id, piece.tetromino.label);
