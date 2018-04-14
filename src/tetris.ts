@@ -299,6 +299,8 @@ export default class Tetris {
   }
 
   start() {
+    this.level = 1;
+    this.score = 0;
     this.isStarted = true;
     this.eventEmitter.emit('gamestart');
     this.initMatrix();
