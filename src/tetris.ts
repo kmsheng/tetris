@@ -152,7 +152,7 @@ export default class Tetris {
     });
   }
 
-  clearRowIfNeeded() {
+  clearRowIfNeeded(next?: () => void) {
 
     const {matrix, level} = this;
     const {width, height} = this.option;
@@ -168,6 +168,10 @@ export default class Tetris {
 
     this.score += scoreThisRound;
     this.eventEmitter.emit('change');
+
+    if (next) {
+      next();
+    }
   }
 
   changeLevelIfNeeded() {
@@ -208,8 +212,7 @@ export default class Tetris {
           this.setNewPiece();
 
           if (this.canThrowNewBlock()) {
-            this.clearRowIfNeeded();
-            this.throwNewPiece();
+            this.clearRowIfNeeded(() => this.throwNewPiece());
             return;
           }
           this.gameOver();
