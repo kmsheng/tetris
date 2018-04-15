@@ -28,6 +28,9 @@ export default class TetrisDom extends Tetris {
         if (block.isPseudo) {
           cssClasses.push('pseudo');
         }
+        if (block.isFadingOut) {
+          cssClasses.push('fade-out');
+        }
         return `<td class="${cssClasses.join(' ')}"></td>`;
       }).join('');
       return `<tr>${tds}</tr>`;
