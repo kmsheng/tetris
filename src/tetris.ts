@@ -34,6 +34,8 @@ export default class Tetris {
 
   currentPiece: TetrominoController;
 
+  bufferHeight: number = 1;
+
   tetrominoes: Tetromino[] = [
     TETROMINO_O,
     TETROMINO_J,
@@ -54,9 +56,14 @@ export default class Tetris {
   draw() {
   }
 
+  getMatrixHeight() {
+    return this.option.height + this.bufferHeight;
+  }
+
   initMatrix() {
 
-    const {width, height} = this.option;
+    const {width} = this.option;
+    const height = this.getMatrixHeight();
     this.matrix = [];
 
     for (let i: number = 0; i < height; i++) {
@@ -155,7 +162,8 @@ export default class Tetris {
   clearRowIfNeeded(next?: () => void) {
 
     const {matrix, level} = this;
-    const {width, height} = this.option;
+    const {width} = this.option;
+    const height = this.getMatrixHeight();
     const scoreThisRound = matrix.filter(row => row.every(block => ! block.isEmpty())).length * width * level;
     const clearedRows = matrix.filter(row => row.some(block => block.isEmpty()));
     const start = height - clearedRows.length;

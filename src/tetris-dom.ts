@@ -21,8 +21,10 @@ export default class TetrisDom extends Tetris {
 
   draw() {
     const {element} = this;
-    const {width, height} = this.option;
-    const html = this.matrix.map(row => {
+    const html = this.matrix.map((row, index) => {
+      if (index < this.bufferHeight) {
+        return '';
+      }
       const tds = row.map(block => {
         const cssClasses = [`color-${block.label}`];
         if (block.isPseudo) {
