@@ -1,7 +1,9 @@
 export default class MatrixBlock {
 
   id: number;
+
   label: string;
+
   isPseudo: boolean = false;
 
   isFadingOut: boolean = false;
