@@ -21,12 +21,17 @@ export default class TetrisDom extends Tetris {
 
   draw() {
     const {element} = this;
-    const {width, height} = this.option;
-    const html = this.matrix.map(row => {
+    const html = this.matrix.map((row, index) => {
+      if (index < this.bufferHeight) {
+        return '';
+      }
       const tds = row.map(block => {
         const cssClasses = [`color-${block.label}`];
         if (block.isPseudo) {
           cssClasses.push('pseudo');
+        }
+        if (block.isFadingOut) {
+          cssClasses.push('fade-out');
         }
         return `<td class="${cssClasses.join(' ')}"></td>`;
       }).join('');
@@ -53,19 +58,19 @@ export default class TetrisDom extends Tetris {
     const {code} = event;
 
     if ('ArrowLeft' === code) {
-      this.moveCurrentPieceToLeft();
+      this.moveLeft();
     }
     else if ('ArrowRight' === code) {
-      this.moveCurrentPieceToRight();
+      this.moveRight();
     }
     else if ('ArrowDown' === code) {
-      this.moveCurrentPieceToBottom();
+      this.moveDown();
     }
     else if ('ArrowUp' === code) {
       this.rotateCurrentPiece();
     }
     else if ('Space' === code) {
-      this.dropCurrentPieceAllTheWayToBottom();
+      this.dropCurrentPiece();
     }
   }
 
@@ -91,6 +96,30 @@ export default class TetrisDom extends Tetris {
 
   stopAnimationLoop() {
     this.isAnimating = false;
+  }
+
+  clearRowIfNeeded(next: () => void) {
+
+    const rowsShouldBeFadedOut = this.matrix.filter(row => row.every(block => ! block.isEmpty()));
+
+    if (rowsShouldBeFadedOut.length > 0) {
+      this.stopAnimationLoop();
+      this.matrix = this.matrix.map(row => {
+        const shouldApplyFadingOutAnimation = row.every(block => ! block.isEmpty());
+        if (shouldApplyFadingOutAnimation) {
+          return row.map(block => block.setFadingOut());
+        }
+        return row;
+      });
+      this.draw()
+      setTimeout(() => {
+        this.startAnimationLoop();
+        super.clearRowIfNeeded(next);
+      }, 300);
+    }
+    else {
+      super.clearRowIfNeeded(next);
+    }
   }
 
   start() {

@@ -34,6 +34,8 @@ export default class Tetris {
 
   currentPiece: TetrominoController;
 
+  bufferHeight: number = 1;
+
   tetrominoes: Tetromino[] = [
     TETROMINO_O,
     TETROMINO_J,
@@ -54,9 +56,14 @@ export default class Tetris {
   draw() {
   }
 
+  getMatrixHeight() {
+    return this.option.height + this.bufferHeight;
+  }
+
   initMatrix() {
 
-    const {width, height} = this.option;
+    const {width} = this.option;
+    const height = this.getMatrixHeight();
     this.matrix = [];
 
     for (let i: number = 0; i < height; i++) {
@@ -120,30 +127,30 @@ export default class Tetris {
   }
 
   // the pos arr where a piece will fall
-  getFixedPosArrData(posArr: Point2d[]) {
+  getDroppedPosData(posArr: Point2d[]) {
 
     let canPlace = true;
     let deltaY = 0;
-    let fixedPosArr = posArr.slice(0);
+    let droppedPosArr = posArr.slice(0);
 
     while (true) {
       deltaY += 1;
       const nextPosArr = posArr.map(pos => ({x: pos.x, y: pos.y + deltaY}));
       if (this.canPlaceBlocks(nextPosArr)) {
-        fixedPosArr = nextPosArr;
+        droppedPosArr = nextPosArr;
       }
       else {
         break;
       }
     }
-    return {deltaY, fixedPosArr};
+    return {deltaY, droppedPosArr};
   }
 
   setBlocks(posArr: Point2d[], piece: TetrominoController) {
 
-    const {fixedPosArr} = this.getFixedPosArrData(posArr);
+    const {droppedPosArr} = this.getDroppedPosData(posArr);
 
-    fixedPosArr.forEach(({x, y}) => {
+    droppedPosArr.forEach(({x, y}) => {
       this.matrix[y][x] = new MatrixBlock(piece.id, piece.tetromino.label, true);
     });
 
@@ -152,10 +159,11 @@ export default class Tetris {
     });
   }
 
-  clearRowIfNeeded() {
+  clearRowIfNeeded(next?: () => void) {
 
     const {matrix, level} = this;
-    const {width, height} = this.option;
+    const {width} = this.option;
+    const height = this.getMatrixHeight();
     const scoreThisRound = matrix.filter(row => row.every(block => ! block.isEmpty())).length * width * level;
     const clearedRows = matrix.filter(row => row.some(block => block.isEmpty()));
     const start = height - clearedRows.length;
@@ -168,6 +176,10 @@ export default class Tetris {
 
     this.score += scoreThisRound;
     this.eventEmitter.emit('change');
+
+    if (next) {
+      next();
+    }
   }
 
   changeLevelIfNeeded() {
@@ -208,15 +220,13 @@ export default class Tetris {
           this.setNewPiece();
 
           if (this.canThrowNewBlock()) {
-            this.clearRowIfNeeded();
-            this.throwNewPiece();
+            this.clearRowIfNeeded(() => this.throwNewPiece());
             return;
           }
           this.gameOver();
         }
       }
       else {
-        clearInterval(this.timer);
         this.gameOver();
       }
     }
@@ -224,7 +234,7 @@ export default class Tetris {
     this.timer = setInterval(setMovingBlock, this.delay);
   }
 
-  moveCurrentPieceToLeft() {
+  moveLeft() {
     const {currentPiece} = this;
     const nextPosArr = currentPiece.getPosArr({
       x: currentPiece.pos.x - 1,
@@ -238,7 +248,7 @@ export default class Tetris {
     }
   }
 
-  moveCurrentPieceToRight() {
+  moveRight() {
     const {currentPiece} = this;
     const nextPosArr = currentPiece.getPosArr({
       x: currentPiece.pos.x + 1,
@@ -252,7 +262,7 @@ export default class Tetris {
     }
   }
 
-  moveCurrentPieceToBottom() {
+  moveDown() {
 
     const {currentPiece} = this;
     const nextPosArr = currentPiece.getPosArr({
@@ -267,11 +277,11 @@ export default class Tetris {
     }
   }
 
-  dropCurrentPieceAllTheWayToBottom() {
+  dropCurrentPiece() {
     const {currentPiece} = this;
-    const {fixedPosArr, deltaY} = this.getFixedPosArrData(currentPiece.getPosArr());
+    const {droppedPosArr, deltaY} = this.getDroppedPosData(currentPiece.getPosArr());
     this.eraseBlocks(currentPiece.id);
-    this.setBlocks(fixedPosArr, currentPiece);
+    this.setBlocks(droppedPosArr, currentPiece);
     this.clearRowIfNeeded();
     this.setNewPiece();
   }

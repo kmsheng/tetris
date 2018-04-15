@@ -1,3 +1,8 @@
+@keyframes fade-out {
+  from {opacity: 1}
+  to {opacity: 0}
+}
+
 * {
   box-sizing: border-box;
 }
@@ -71,17 +76,21 @@ button {
   background-color: #fff;
   margin: 0 auto;
 }
-
-.tetris-container__tetris-matrix td.pseudo {
-  opacity: 0.3;
-}
-
 .tetris-container__tetris-matrix td {
   border: 1px solid #ddd;
   width: 18px;
   height: 18px;
 }
+.tetris-container__tetris-matrix td.pseudo {
+  opacity: 0.3;
+}
 
+.tetris-container__tetris-matrix td.fade-out {
+  animation-name: fade-out;
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+  opacity: 0;
+}
 .tetris-container__tetris-matrix td.color-I {
   background-color: #e74c3c;
 }

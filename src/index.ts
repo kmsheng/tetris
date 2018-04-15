@@ -36,8 +36,7 @@ game.on('gameover', () => {
   padScore.innerHTML = `Your Score: ${game.score}`;
 });
 
-const startGame = (event) => {
-  event.preventDefault();
+const startGame = () => {
   game.start()
   topbar.classList.remove('hidden');
   pageHome.classList.add('hidden');
@@ -49,26 +48,24 @@ btnStart.addEventListener('click', startGame, false);
 btnPlayAgain.addEventListener('click', startGame, false);
 
 btnArrowUp.addEventListener('click', () => game.isStarted && game.rotateCurrentPiece(), false);
-btnArrowDown.addEventListener('click', () => game.isStarted && game.moveCurrentPieceToBottom(), false);
-btnArrowLeft.addEventListener('click', () => game.isStarted && game.moveCurrentPieceToLeft(), false);
-btnArrowRight.addEventListener('click', () => game.isStarted && game.moveCurrentPieceToRight(), false);
+btnArrowDown.addEventListener('click', () => game.isStarted && game.moveDown(), false);
+btnArrowLeft.addEventListener('click', () => game.isStarted && game.moveLeft(), false);
+btnArrowRight.addEventListener('click', () => game.isStarted && game.moveRight(), false);
 
-btnA.addEventListener('click', (event) => {
-  event.preventDefault();
+btnA.addEventListener('click', () => {
   if (game.isStarted) {
     game.rotateCurrentPiece();
   }
   else {
-    startGame(event);
+    startGame();
   }
 }, false);
 
-btnB.addEventListener('click', (event) => {
-  event.preventDefault();
+btnB.addEventListener('click', () => {
   if (game.isStarted) {
-    game.dropCurrentPieceAllTheWayToBottom();
+    game.dropCurrentPiece();
   }
   else {
-    startGame(event);
+    startGame();
   }
 }, false);
