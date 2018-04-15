@@ -124,26 +124,26 @@ export default class Tetris {
 
     let canPlace = true;
     let deltaY = 0;
-    let fixedPosArr = posArr.slice(0);
+    let droppedPosArr = posArr.slice(0);
 
     while (true) {
       deltaY += 1;
       const nextPosArr = posArr.map(pos => ({x: pos.x, y: pos.y + deltaY}));
       if (this.canPlaceBlocks(nextPosArr)) {
-        fixedPosArr = nextPosArr;
+        droppedPosArr = nextPosArr;
       }
       else {
         break;
       }
     }
-    return {deltaY, fixedPosArr};
+    return {deltaY, droppedPosArr};
   }
 
   setBlocks(posArr: Point2d[], piece: TetrominoController) {
 
-    const {fixedPosArr} = this.getDroppedPosData(posArr);
+    const {droppedPosArr} = this.getDroppedPosData(posArr);
 
-    fixedPosArr.forEach(({x, y}) => {
+    droppedPosArr.forEach(({x, y}) => {
       this.matrix[y][x] = new MatrixBlock(piece.id, piece.tetromino.label, true);
     });
 
@@ -271,9 +271,9 @@ export default class Tetris {
 
   dropCurrentPiece() {
     const {currentPiece} = this;
-    const {fixedPosArr, deltaY} = this.getDroppedPosData(currentPiece.getPosArr());
+    const {droppedPosArr, deltaY} = this.getDroppedPosData(currentPiece.getPosArr());
     this.eraseBlocks(currentPiece.id);
-    this.setBlocks(fixedPosArr, currentPiece);
+    this.setBlocks(droppedPosArr, currentPiece);
     this.clearRowIfNeeded();
     this.setNewPiece();
   }
