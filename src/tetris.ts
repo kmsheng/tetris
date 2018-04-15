@@ -224,7 +224,7 @@ export default class Tetris {
     this.timer = setInterval(setMovingBlock, this.delay);
   }
 
-  moveCurrentPieceToLeft() {
+  moveLeft() {
     const {currentPiece} = this;
     const nextPosArr = currentPiece.getPosArr({
       x: currentPiece.pos.x - 1,

@@ -53,7 +53,7 @@ export default class TetrisDom extends Tetris {
     const {code} = event;
 
     if ('ArrowLeft' === code) {
-      this.moveCurrentPieceToLeft();
+      this.moveLeft();
     }
     else if ('ArrowRight' === code) {
       this.moveCurrentPieceToRight();

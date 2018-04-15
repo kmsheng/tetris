@@ -50,7 +50,7 @@ btnPlayAgain.addEventListener('click', startGame, false);
 
 btnArrowUp.addEventListener('click', () => game.isStarted && game.rotateCurrentPiece(), false);
 btnArrowDown.addEventListener('click', () => game.isStarted && game.moveCurrentPieceToBottom(), false);
-btnArrowLeft.addEventListener('click', () => game.isStarted && game.moveCurrentPieceToLeft(), false);
+btnArrowLeft.addEventListener('click', () => game.isStarted && game.moveLeft(), false);
 btnArrowRight.addEventListener('click', () => game.isStarted && game.moveCurrentPieceToRight(), false);
 
 btnA.addEventListener('click', (event) => {
