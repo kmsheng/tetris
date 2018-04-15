@@ -115,6 +115,9 @@ export default class TetrisDom extends Tetris {
         super.clearRowIfNeeded(next);
       }, 300);
     }
+    else {
+      super.clearRowIfNeeded(next);
+    }
   }
 
   start() {
