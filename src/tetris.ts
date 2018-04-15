@@ -120,7 +120,7 @@ export default class Tetris {
   }
 
   // the pos arr where a piece will fall
-  getFixedPosArrData(posArr: Point2d[]) {
+  getDroppedPosData(posArr: Point2d[]) {
 
     let canPlace = true;
     let deltaY = 0;
@@ -141,7 +141,7 @@ export default class Tetris {
 
   setBlocks(posArr: Point2d[], piece: TetrominoController) {
 
-    const {fixedPosArr} = this.getFixedPosArrData(posArr);
+    const {fixedPosArr} = this.getDroppedPosData(posArr);
 
     fixedPosArr.forEach(({x, y}) => {
       this.matrix[y][x] = new MatrixBlock(piece.id, piece.tetromino.label, true);
@@ -271,7 +271,7 @@ export default class Tetris {
 
   dropCurrentPiece() {
     const {currentPiece} = this;
-    const {fixedPosArr, deltaY} = this.getFixedPosArrData(currentPiece.getPosArr());
+    const {fixedPosArr, deltaY} = this.getDroppedPosData(currentPiece.getPosArr());
     this.eraseBlocks(currentPiece.id);
     this.setBlocks(fixedPosArr, currentPiece);
     this.clearRowIfNeeded();
