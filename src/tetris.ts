@@ -238,7 +238,7 @@ export default class Tetris {
     }
   }
 
-  moveCurrentPieceToRight() {
+  moveRight() {
     const {currentPiece} = this;
     const nextPosArr = currentPiece.getPosArr({
       x: currentPiece.pos.x + 1,

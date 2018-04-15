@@ -56,7 +56,7 @@ export default class TetrisDom extends Tetris {
       this.moveLeft();
     }
     else if ('ArrowRight' === code) {
-      this.moveCurrentPieceToRight();
+      this.moveRight();
     }
     else if ('ArrowDown' === code) {
       this.moveCurrentPieceToBottom();
