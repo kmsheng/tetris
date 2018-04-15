@@ -252,7 +252,7 @@ export default class Tetris {
     }
   }
 
-  moveCurrentPieceToBottom() {
+  moveDown() {
 
     const {currentPiece} = this;
     const nextPosArr = currentPiece.getPosArr({
