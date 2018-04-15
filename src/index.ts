@@ -36,8 +36,7 @@ game.on('gameover', () => {
   padScore.innerHTML = `Your Score: ${game.score}`;
 });
 
-const startGame = (event) => {
-  event.preventDefault();
+const startGame = () => {
   game.start()
   topbar.classList.remove('hidden');
   pageHome.classList.add('hidden');
@@ -53,22 +52,20 @@ btnArrowDown.addEventListener('click', () => game.isStarted && game.moveDown(), 
 btnArrowLeft.addEventListener('click', () => game.isStarted && game.moveLeft(), false);
 btnArrowRight.addEventListener('click', () => game.isStarted && game.moveRight(), false);
 
-btnA.addEventListener('click', (event) => {
-  event.preventDefault();
+btnA.addEventListener('click', () => {
   if (game.isStarted) {
     game.rotateCurrentPiece();
   }
   else {
-    startGame(event);
+    startGame();
   }
 }, false);
 
-btnB.addEventListener('click', (event) => {
-  event.preventDefault();
+btnB.addEventListener('click', () => {
   if (game.isStarted) {
     game.dropCurrentPiece();
   }
   else {
-    startGame(event);
+    startGame();
   }
 }, false);
