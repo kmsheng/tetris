@@ -66,7 +66,7 @@ btnA.addEventListener('click', (event) => {
 btnB.addEventListener('click', (event) => {
   event.preventDefault();
   if (game.isStarted) {
-    game.dropCurrentPieceAllTheWayToBottom();
+    game.dropCurrentPiece();
   }
   else {
     startGame(event);

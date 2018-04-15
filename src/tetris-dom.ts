@@ -65,7 +65,7 @@ export default class TetrisDom extends Tetris {
       this.rotateCurrentPiece();
     }
     else if ('Space' === code) {
-      this.dropCurrentPieceAllTheWayToBottom();
+      this.dropCurrentPiece();
     }
   }
 

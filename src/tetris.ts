@@ -267,7 +267,7 @@ export default class Tetris {
     }
   }
 
-  dropCurrentPieceAllTheWayToBottom() {
+  dropCurrentPiece() {
     const {currentPiece} = this;
     const {fixedPosArr, deltaY} = this.getFixedPosArrData(currentPiece.getPosArr());
     this.eraseBlocks(currentPiece.id);
