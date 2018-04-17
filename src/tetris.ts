@@ -34,6 +34,8 @@ export default class Tetris {
 
   currentPiece: TetrominoController;
 
+  nextPiece: TetrominoController;
+
   bufferHeight: number = 1;
 
   tetrominoes: Tetromino[] = [
@@ -76,14 +78,13 @@ export default class Tetris {
     }
   }
 
-  setNewPiece() {
+  getNewPiece() {
 
     const [randomBlock] = shuffle(this.tetrominoes);
     const [coord] = shuffle(randomBlock.coords);
-
     this.pieceCount += 1;
 
-    this.currentPiece = {
+    return {
       id: this.pieceCount,
       tetromino: randomBlock,
       coord,
@@ -98,6 +99,18 @@ export default class Tetris {
       },
       rotateIndex: 0
     };
+  }
+
+  setNewPiece() {
+
+    if (this.nextPiece) {
+      this.currentPiece = this.nextPiece;
+      this.nextPiece = this.getNewPiece();
+    }
+    else {
+      this.currentPiece = this.getNewPiece();
+      this.nextPiece = this.getNewPiece();
+    }
   }
 
   canPlaceBlocks(posArr: Point2d[]) {
