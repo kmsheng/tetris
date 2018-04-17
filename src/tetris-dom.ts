@@ -4,22 +4,49 @@ export default class TetrisDom extends Tetris {
 
   private element: HTMLElement;
 
+  private nextPieceElement: HTMLElement;
+
   private isAnimating: boolean = false;
 
   private lastHtml: string = '';
 
+  private lastNextPieceHtml: string = '';
+
   private bindedHandleKeyDown: () => void;
 
-  constructor(element: HTMLElement, options) {
+  constructor(element: HTMLElement, nextPieceElement: HTMLElement, options) {
     super(options);
     this.element = element;
+    this.nextPieceElement = nextPieceElement;
     this.addEventListeners();
     this.eventEmitter.on('gameover', () => {
       this.stopAnimationLoop()
     }, false);
   }
 
+  drawNextPiece() {
+    const {nextPiece, nextPieceElement} = this;
+    const {label} = nextPiece.tetromino;
+    const posArr = nextPiece.getPosArr({x: 0, y: 0});
+    const html = Array(4).fill(null).map((_, i) => {
+      const tds = Array(4).fill(null).map((_, j) => {
+        const pos = posArr.find(pos => (pos.x === j) && (pos.y === i));
+        const cssClass = pos ? `color-${label}` : '';
+        return `<td class="${cssClass}"></td>`;
+      }).join('');
+      return `<tr>${tds}</tr>`;
+    }).join('');
+
+    if (this.lastNextPieceHtml !== html) {
+      nextPieceElement.innerHTML = html;
+      this.lastNextPieceHtml = html;
+    }
+  }
+
   draw() {
+
+    this.drawNextPiece();
+
     const {element} = this;
     const html = this.matrix.map((row, index) => {
       if (index < this.bufferHeight) {

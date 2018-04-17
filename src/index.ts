@@ -3,7 +3,8 @@ import './index.css';
 import TetrisDom from './tetris-dom';
 
 const element = document.getElementById('matrix');
-const game = new TetrisDom(element, {width: 10, height: 20});
+const nextPieceElement = document.getElementById('next-piece');
+const game = new TetrisDom(element, nextPieceElement, {width: 10, height: 20});
 const pageHome = document.getElementById('page-home');
 const pageGameOver = document.getElementById('page-game-over');
 const btnStart = document.getElementById('btn-start');
