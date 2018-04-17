@@ -119,10 +119,6 @@ button {
   background-color: #3498db;
 }
 
-.tetris-container__tetris-matrix td.color-T {
-  background-color: #9b59b6;
-}
-
 .tetris-container__tetris-matrix td.color-Z {
   background-color: #34495e;
 }
